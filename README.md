@@ -31,3 +31,5 @@ library(gt)             # for table composition
 ## 🧮 Part 3: Ordinary Least Squares
 
 ## 🗺️ Part 4: Spatial Data
+
+## 💡 Sources
