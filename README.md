@@ -1,6 +1,11 @@
 # Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City
 
+## Overview
+
+## Data
+
 ## Libraries
+```r
 library(socratadata)    # for Socrata API
 library(tidyverse)      # for data manipulation and visualization
 library(tidycensus)     # for Census API
@@ -16,3 +21,4 @@ library(GGally)         # for correlation matrix
 library(modelsummary)   # for model summary
 library(patchwork)      # for plot composition
 library(gt)             # for table composition
+```
