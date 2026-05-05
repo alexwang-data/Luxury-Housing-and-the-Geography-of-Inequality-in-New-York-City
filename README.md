@@ -2,7 +2,7 @@
 
 ## 🕵️ Overview
 
-## 📊 Data
+## 📁 Data
 
 ## 📚 Libraries
 ```r
@@ -22,3 +22,12 @@ library(modelsummary)   # for model summary
 library(patchwork)      # for plot composition
 library(gt)             # for table composition
 ```
+## 💻 How To Replicate
+
+## 🧹 Part 1: Data Development
+
+## 📊 Part 2: Exploratory Data Analysis (EDA)
+
+## 🧮 Part 3: Ordinary Least Squares
+
+## 🗺️ Part 4: Spatial Data
