@@ -8,7 +8,7 @@ How does the luxury housing market relate to the spatial distribution of housing
 The luxury housing market is not associated with the spatial distribution of housing inequality.
 
 **Alternative Hypothesis (Ha):**
-The luxury housing market is associated with the spatial distribution of housing inequality in<br> socioeconomically vulnerable neighborhoods.
+The luxury housing market is associated with the spatial distribution of housing inequality in socioeconomically vulnerable neighborhoods.
 
 ## 📁 Data
 
