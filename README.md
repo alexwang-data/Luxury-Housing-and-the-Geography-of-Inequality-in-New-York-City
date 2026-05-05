@@ -2,13 +2,13 @@
 
 ## 🕵️ Overview
 **Reseach Question:**
-How does the luxury housing market relate to the spatial distribution of housing inequality in New York City?
+Is the luxury housing market concentrated in socioeconomically vulnerable neighborhoods in New York City?
 
 **Null Hypothesis (H0):**
-The luxury housing market is not associated with the spatial distribution of housing inequality.
+The luxury housing market is not associated with neighborhood socioeconomic vulnerability.
 
 **Alternative Hypothesis (Ha):**
-The luxury housing market is associated with the spatial distribution of housing inequality in socioeconomically vulnerable neighborhoods.
+The luxury housing market is more concentrated in socioeconomically vulnerable neighborhoods.
 
 ## 📁 Data
 
