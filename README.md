@@ -15,6 +15,17 @@ The luxury housing market is more concentrated in socioeconomically vulnerable n
 
 ## 📁 Data
 
+U.S. Census; 2020 American Community Survey 5-Years Estimate<br>
+https://data.census.gov/
+
+NYC Open Data; 2025 Citywide Annualized Calendar Sales Update<br>
+https://data.cityofnewyork.us/City-Government/NYC-Citywide-Annualized-Calendar-Sales-Update/w2pb-icbu/about_data
+
+NYC Department of City Planning; 2020 Neighborhood Tabulation Areas<br>
+https://www.nyc.gov/content/planning/pages/resources/datasets/neighborhood-tabulation
+
+ArcGIS Pro; Esri Basemap
+
 ## 📚 Libraries
 ```r
 library(socratadata)    # for Socrata API
