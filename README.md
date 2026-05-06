@@ -61,8 +61,10 @@ In RStudio, install and load all of the 15 libraries:<br>
 install.packages("tidyverse")
 library(tidyverse)
 ```
-Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`, `tidyr`, and `ggplot2` for data manipulation and visualization.
+Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`, `tidyr`, and `ggplot2` for data manipulation and visualization.<br>
 
+Optional:<br>
+Install ArcGIS Pro
 
 ## 🧹 Part 1: Data Development
 
