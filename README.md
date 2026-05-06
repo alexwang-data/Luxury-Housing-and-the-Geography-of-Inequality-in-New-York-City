@@ -56,12 +56,12 @@ Click on name. Choose developer setting. Create a new API Key. Note both Key ID 
 Install R and RStudio:<br>
 https://posit.co/download/rstudio-desktop <br>
 
-In RStudio, install and load all of the libraries:<br>
+In RStudio, install and load all of the 15 libraries:<br>
 ```r
 install.packages("tidyverse")
 library(tidyverse)
 ```
-Tidyverse is a collection of packages. It contains tools like `dplyr` and `ggplot2` for data manipulation and visualization.
+Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`, `tidyr`, and `ggplot2` for data manipulation and visualization.
 
 
 ## 🧹 Part 1: Data Development
