@@ -64,7 +64,7 @@ library(tidyverse)
 Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`, `tidyr`, and `ggplot2` for data manipulation and visualization.<br>
 
 Optional:<br>
-Install ArcGIS Pro:
+Install ArcGIS Pro:<br>
 https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm
 
 ## 🧹 Part 1: Data Development
