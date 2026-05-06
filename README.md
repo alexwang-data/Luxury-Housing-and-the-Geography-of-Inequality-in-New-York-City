@@ -24,7 +24,8 @@ https://data.cityofnewyork.us/City-Government/NYC-Citywide-Annualized-Calendar-S
 NYC Department of City Planning; 2020 Neighborhood Tabulation Areas<br>
 https://www.nyc.gov/content/planning/pages/resources/datasets/neighborhood-tabulation
 
-ArcGIS Pro; Esri Basemap
+ArcGIS Pro; Esri Basemap<br>
+https://pro.arcgis.com/en/pro-app/latest/help/mapping/map-authoring/author-a-basemap.htm
 
 ## 📚 Libraries
 ```r
@@ -45,6 +46,23 @@ library(patchwork)      # for plot composition
 library(gt)             # for table composition
 ```
 ## 💻 How To Replicate
+Sign up for a U.S. Census API Key:<br>
+https://api.census.gov/data/key_signup.html
+
+Sign up for a NYC Open Data API Key:<br>
+https://opendata.cityofnewyork.us/ <br>
+Click on name. Choose developer setting. Create a new API Key. Note both Key ID and Key Secret. <br>
+
+Install R and RStudio:<br>
+https://posit.co/download/rstudio-desktop <br>
+
+In RStudio, install and load all of the libraries:<br>
+```r
+install.packages("tidyverse")
+library(tidyverse)
+```
+Tidyverse is a collection of packages. It contains tools like `dplyr` and `ggplot2` for data manipulation and visualization.
+
 
 ## 🧹 Part 1: Data Development
 
