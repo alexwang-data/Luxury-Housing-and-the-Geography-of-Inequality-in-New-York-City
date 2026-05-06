@@ -1,6 +1,9 @@
 # Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City
 
 ## 🕵️ Overview
+
+HI! Thanks for stopping by. I'm still building this repository - please check back soon.
+
 **Reseach Question:**
 Is the luxury housing market concentrated in socioeconomically vulnerable neighborhoods in New York City?
 
