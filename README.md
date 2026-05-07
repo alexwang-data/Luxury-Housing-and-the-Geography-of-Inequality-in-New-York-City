@@ -65,7 +65,27 @@ Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`,
 
 Optional:<br>
 Install ArcGIS Pro:<br>
-https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm
+https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm <br>
+
+The replication code are available in four folders, covering data development, exploratory data analysis, ordinary least squares, and spatial analysis.<br>
+
+Create a folder on your desktop.<br>
+
+In RStudio, set a working directory (Mac):<br>
+https://www.learn-r.org/r-tutorial/setwd-r.php
+```r
+getwd()
+setwd("/Users/UserName/Desktop/FolderName")
+```
+
+When running the code, the associated visualizations and tables will be automatically saved to the folder created on your desktop.<br>
+
+You can disregard this by skipping:<br>
+```r
+ggsave() # visuals
+# and
+gtsave() # tables
+```
 
 ## 🧹 Part 1: Data Development
 
@@ -73,6 +93,6 @@ https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcg
 
 ## 🧮 Part 3: Ordinary Least Squares
 
-## 🗺️ Part 4: Spatial Data
+## 🗺️ Part 4: Spatial Analysis
 
 ## 💡 Sources
