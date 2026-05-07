@@ -56,7 +56,7 @@ Click on name. Choose developer setting. Create a new API Key. Note both Key ID 
 Install R and RStudio:<br>
 https://posit.co/download/rstudio-desktop <br>
 
-In RStudio, install and load all of the 15 libraries:<br>
+In RStudio, install and load all of the **15 libraries**:<br>
 ```r
 install.packages("tidyverse")
 library(tidyverse)
