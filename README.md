@@ -75,7 +75,7 @@ In RStudio, set a working directory (Mac):<br>
 https://www.learn-r.org/r-tutorial/setwd-r.php
 ```r
 getwd()
-setwd("/Users/UserName/Desktop/FolderName")
+setwd("/Users/USER/Desktop/FOLDER")
 ```
 
 When running the code, the associated visualizations and tables will be automatically saved to the folder created on your desktop.<br>
