@@ -63,10 +63,6 @@ library(tidyverse)
 ```
 Tidyverse is a collection of packages. It contains tools like `dplyr`, `tibble`, `tidyr`, and `ggplot2` for data manipulation and visualization.<br>
 
-Optional:<br>
-Install ArcGIS Pro:<br>
-https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm <br>
-
 The replication code are available in four folders, covering data development, exploratory data analysis, ordinary least squares, and spatial analysis.<br>
 
 Create a folder on your desktop.<br>
@@ -86,6 +82,10 @@ ggsave() # visuals
 # and
 gtsave() # tables
 ```
+
+Optional:<br>
+Install ArcGIS Pro:<br>
+https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm <br>
 
 ## 🧹 Part 1: Data Development
 
