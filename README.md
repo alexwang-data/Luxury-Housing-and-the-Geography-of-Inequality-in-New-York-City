@@ -48,6 +48,7 @@ library(gt)             # for table composition
 ## 🎨 Visual Identity
 
 Typography:<br>
+
 Times New Roman         (presentation & writing)<br>
 Tahoma                  (poster)<br>
 Carbria Math            (poster)<br>
