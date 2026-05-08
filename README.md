@@ -74,7 +74,7 @@ getwd()
 setwd("/Users/USER/Desktop/FOLDER")
 ```
 
-When running the code, the associated visualizations and tables will be automatically saved to the folder created on your desktop.<br>
+When running the code, the associated visualizations and tables will be automatically saved to the folder linked to the working directory.<br>
 
 You can disregard this by skipping:<br>
 ```r
