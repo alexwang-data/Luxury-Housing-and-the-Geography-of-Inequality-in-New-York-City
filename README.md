@@ -45,6 +45,33 @@ library(modelsummary)   # for model summary
 library(patchwork)      # for plot composition
 library(gt)             # for table composition
 ```
+## 🎨 Visual Identity
+
+Typography:<br>
+Times New Roman         (presentation & writing)<br>
+Tahoma                  (poster)<br>
+Carbria Math            (poster)<br>
+
+Color Palette:<br>
+
+Neutral Tones:<br>
+White: #FFFFFF<br>
+Grey 50: #7A7A7A <br>
+Charcoal: #2F2F2F <br>
+
+Earth & Brown Tones:<br>
+Warm Clay: #C97C5D <br>
+Burnt Sienna: #8C3B2A <br>
+
+Red Tones:<br>
+Crimson Red: #8D021F <br>
+Deep Red: #B2182B <br>
+Soft Coral: #E07A7A <br>
+
+Blue & Cool Tones:<br>
+Slate Blue Grey: #6F7F8C <br>
+Royal Blue: #2166AC <br>
+
 ## 💻 How To Replicate
 Sign up for a U.S. Census API Key:<br>
 https://api.census.gov/data/key_signup.html
