@@ -11,7 +11,7 @@ Is the luxury housing market concentrated in socioeconomically vulnerable neighb
 The luxury housing market is not associated with neighborhood socioeconomic vulnerability.
 
 **Alternative Hypothesis (Ha):**
-The luxury housing market is more concentrated in socioeconomically vulnerable neighborhoods.
+The luxury housing market is concentrated in socioeconomically vulnerable neighborhoods.
 
 ## 📁 Data
 
