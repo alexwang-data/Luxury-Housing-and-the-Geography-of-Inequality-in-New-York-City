@@ -119,7 +119,8 @@ Optional:<br>
 Install ArcGIS Pro:<br>
 https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcgis-pro.htm <br>
 
-## 🧹 Part 1: Data Development
+
+## ⚙️ Methodology
 
 Following Lauermann (2021), luxury housing is defined as residential properties sold for at least $2 million per unit, which is the threshold New York City adopted in 2019 for a “mansion tax” on real estate sales.
 
@@ -127,29 +128,25 @@ Transaction records were obtained from NYC Open Data’s Citywide Annualized Cal
 
 For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 455 tracts.
 
+To support visual interpretation, LPI values were also aggregated to Neighborhood Tabulation Areas (NTAs). An Optimized Hot Spot Analysis (Getis-Ord Gi*) was run on luxury price-per-unit at the individual transaction level to identify statistically significant clusters of high- and low value sales.
 
-## 📊 Part 2: Exploratory Data Analysis (EDA)
-
-## 🧮 Part 3: Ordinary Least Squares
-
-An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Moran’s I (Anselin, 1995) revealed significant spatial autocorrelation in the LPI (I = 0.42, p < 0.05), violating OLS independence assumptions, so a spatial lag regression (Anselin, 1988) was used. 
+Because the LPI was right-skewed, it was log-transformed for regression. An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Moran’s I (Anselin, 1995) revealed significant spatial autocorrelation in the LPI (I = 0.42, p < 0.05), violating OLS independence assumptions, so a spatial lag regression (Anselin, 1988) was used. 
 
 
-## 🗺️ Part 4: Spatial Analysis
+## 🗺️ Analysis
 
 In the neighborhoods experiencing the greatest luxury pressure, a single luxury unit costs more than 200 years of the local median household income, reaching as high as 1,109 years in the most extreme case.
 
-To support visual interpretation, LPI values were also aggregated to Neighborhood Tabulation Areas (NTAs). An Optimized Hot Spot Analysis (Getis-Ord Gi*) was run on luxury price-per-unit at the individual transaction level to identify statistically significant clusters of high- and low value sales.
-
 Manhattan’s Billionaires Row dominates the hot spot map, with significant clusters of high-value sales, yet the LPI values are not the highest in the city. In Midtown, Lenox Hill, and Carnegie Hill, median incomes are high enough to absorb high luxury prices, narrowing the price-to-income ratio. The most extreme LPI values instead appear in East Harlem, East New York, Canarsie, Marine Park, Long Island City, Woodside, Elmhurst, Flushing, and Far Rockaway. A map of luxury sales alone would point to Manhattan as the epicenter of the market; a map of luxury pressure points elsewhere, to where the gap between prices and earnings is widest and where what Marcuse (1985) called “displacement pressure” is acute.
 
-The spatial lag regression quantifies these patterns and identifies which neighborhood characteristics drive luxury pressure. Poverty, rent burden, population density, and foreign-born share each predict higher LPI, while educational attainment moves in the opposite direction. The positive coefficient on foreign-born share is consistent with Sassen’s (1991) global-city framework, in which capital investment and immigrant labor concentrate in the same metropolis and often the same neighborhoods.
+The spatial lag regression quantifies these patterns and identifies which neighborhood characteristics drive luxury pressure. Poverty, rent burden, population density, and foreign-born share each predict higher LPI, while educational attainment moves in the opposite direction (see Fig. 1 and Fig. 5). The positive coefficient on foreign-born share is consistent with Sassen’s (1991) global-city framework, in which capital investment and immigrant labor concentrate in the same metropolis and often the same neighborhoods.
 
 
 ## 🎬 Conclusion
 The results support the alternative hypothesis that the luxury housing market is concentrated in socioeconomically vulnerable neighborhoods. Higher poverty and rent burden are associated with greater luxury pressure, while higher educational attainment is associated with lower pressure. This profile is broadly consistent with characteristics used to identify neighborhoods vulnerable to gentrification or “gentrification eligible” in prior research (Freeman, 2005) and aligns with socioeconomic indicators commonly employed in recent quantitative studies of gentrification and super-gentrification (Lauermann et al., 2025).
 
 Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change as luxury capital arrives, intensifies, or recedes. Second, residual spatial autocorrelation remained after modeling (Moran’I = 0.18), indicating that some spatial structure is not fully explained by the included predictors. Alternative model specifications could further reduce residual clustering and refine the estimates.
+
 
 ## 💡 References
 
