@@ -150,6 +150,28 @@ Two limitations qualify these findings. First, the LPI is cross-sectional and ca
 
 ## 💡 References
 
+Anselin, L. (1988). Spatial econometrics: Methods and models. Kluwer Academic Publishers <br> https://web.pdx.edu/~crkl/WISE/SEAUG/papers/anselin01_CTE14.pdf <br><br>
+
+Anselin, L. (1995). Local indicators of spatial association — LISA. Geographical Analysis, 27(2), 93–115. <br> https://doi.org/10.1111/j.1538-4632.1995.tb00338.x <br><br>
+
+Black, B. D., & Richards, M. (2020). Eco-gentrification and who benefits from urban green amenities: NYC’s High Line. Landscape and Urban Planning, 204, 103900. <br>
+https://doi.org/10.1016/j.landurbplan.2020.103900 <br><br>
+
+Bogin, A., Doerner, W., & Larson, W. (2023). Estimating census tract house price indexes: A new spatial dynamic factor approach. Journal of Real Estate Finance and Economics. <br>
+https://doi.org/10.1007/s11146-023-09954-z <br><br>
+
+Freeman, L. (2005). Displacement or succession? Residential mobility in gentrifying neighborhoods. Urban Affairs Review, 40(4), 463–491. <br>
+https://doi.org/10.1177/1078087404273341 <br><br>
+
+Lauermann, J. (2021). Luxury housing and gentrification in New York City, 2010–2019. Urban Geography, 43(10), 1683–1701. <br> https://doi.org/10.1080/02723638.2021.1956112 <br><br>
+
+Lauermann, J., Alexander, Z., & Wang, Z. (2025). Mapping super-gentrification in large US cities, 1990–2020. Urban Geography. <br> https://doi.org/10.1080/02723638.2025.2528418 <br><br>
+
+Marcuse, P. (1985). Gentrification, abandonment, and displacement: Connections, causes, and policy responses in New York City. 28 WASH. U. J. URB. & CONTEMP. L. 195 <br>
+https://openscholarship.wustl.edu/law_urbanlaw/vol28/iss1/4 <br><br>
+
+Sassen, S. (1991). The global city: New York, London, Tokyo. Princeton University Press.
+
 ## ⚖️ License
 
 ![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)
