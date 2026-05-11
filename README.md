@@ -161,7 +161,7 @@ Bogin, A., Doerner, W., & Larson, W. (2023). Estimating census tract house price
 https://doi.org/10.1007/s11146-023-09954-z <br><br>
 
 Freeman, L. (2005). Displacement or succession? Residential mobility in gentrifying neighborhoods. Urban Affairs Review, 40(4), 463–491. <br>
-https://doi.org/10.1177/1078087404273341 <br><br>
+https://ds4ps.org/cpp-528-spr-2020/articles/gentrification/displacement-or-succession.pdf <br><br>
 
 Lauermann, J. (2021). Luxury housing and gentrification in New York City, 2010–2019. Urban Geography, 43(10), 1683–1701. <br> https://doi.org/10.1080/02723638.2021.1956112 <br><br>
 
