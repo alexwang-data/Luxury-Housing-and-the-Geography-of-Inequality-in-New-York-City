@@ -2,7 +2,11 @@
 
 ## 🕵️ Overview
 
-HI! Thanks for stopping by. I'm still building this repository - please check back soon.
+New York City is a tale of two cities, where immense wealth and extreme poverty exist in stark proximity within a single metropolis. While the US National Gini Index hovered around 0.40, New York City’s reached 0.55 (reported in Black & Richards, 2020), placing it among the most unequal large cities in the country. Nowhere is this divide more visible than in the housing market. On one block, ultra-luxury condominiums sell for tens of millions of dollars; a few blocks away, rent-burdened households spend more than half their income to stay housed. Between 2010 and 2019, the city’s luxury housing market grew by 102%, intensifying in already-affluent neighborhoods on the west side of Manhattan while expanding into recently gentrified parts of northern and central Brooklyn (Lauermann, 2021).
+
+Spatial methods have been used to identify neighborhoods at risk of gentrification at the fine geographic scales (Bogin et al., 2023), but few studies build a tract-level index that directly measures the mismatch between luxury prices and local incomes. This study addresses that gap by asking whether luxury housing is landing in New York City’s most socioeconomically vulnerable neighborhoods.
+
+## 🧩 Research Design
 
 **Reseach Question:**
 Is the luxury housing market concentrated in socioeconomically vulnerable neighborhoods in New York City?
