@@ -127,4 +127,9 @@ https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcg
 
 ## 🗺️ Part 4: Spatial Analysis
 
+## 🎬 Conclusion
+The results support the alternative hypothesis that the luxury housing market is concentrated in socioeconomically vulnerable neighborhoods. Higher poverty and rent burden are associated with greater luxury pressure, while higher educational attainment is associated with lower pressure. This profile is broadly consistent with characteristics used to identify neighborhoods vulnerable to gentrification or “gentrification eligible” in prior research (Freeman, 2005) and aligns with socioeconomic indicators commonly employed in recent quantitative studies of gentrification and super-gentrification (Lauermann et al., 2025).
+
+Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change as luxury capital arrives, intensifies, or recedes. Second, residual spatial autocorrelation remained after modeling (Moran’I = 0.18), indicating that some spatial structure is not fully explained by the included predictors. Alternative model specifications could further reduce residual clustering and refine the estimates.
+
 ## 💡 References
