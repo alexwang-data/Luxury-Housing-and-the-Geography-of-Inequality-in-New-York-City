@@ -152,3 +152,12 @@ The results support the alternative hypothesis that the luxury housing market is
 Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change as luxury capital arrives, intensifies, or recedes. Second, residual spatial autocorrelation remained after modeling (Moran’I = 0.18), indicating that some spatial structure is not fully explained by the included predictors. Alternative model specifications could further reduce residual clustering and refine the estimates.
 
 ## 💡 References
+
+## ⚖️ License
+
+![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+[![CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc/4.0/)
