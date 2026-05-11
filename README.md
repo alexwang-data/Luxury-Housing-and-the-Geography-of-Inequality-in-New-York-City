@@ -123,4 +123,4 @@ https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcg
 
 ## 🗺️ Part 4: Spatial Analysis
 
-## 💡 Sources
+## 💡 References
