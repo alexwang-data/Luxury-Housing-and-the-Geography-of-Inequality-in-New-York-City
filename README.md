@@ -121,13 +121,6 @@ https://pro.arcgis.com/en/pro-app/latest/get-started/install-and-sign-in-to-arcg
 
 Follow the Geoprocessing Model workflow. <br>
 
-The workflow is structured as two parallel analytical pipelines that are ultimately combined.<br>
-
-The first pipeline performs a Spatial Join between census tract LPI and Neighborhood Tabulation Areas (NTA), using a one-to-one join with an intersect rule. Because multiple census tracts may fall within a single NTA, LPI values are aggregated using the mean. A Calculate Field step **(0 if !luxury_pressure_index_Mean! is None else !luxury_pressure_index_Mean!)** is then applied to replace null values to 0 to prevent gaps in the choropleth layer. <br>
-
-The second pipeline processed the point dataset using Optimized Hot Spot Analysis (Getis-Ord Gi*), which identifies statistically significant clusters of high and low values in price per unit. <br>
-
-Finally, the model integrates these two outputs through a second Spatial Join, linking the hot spot results to the NTA-level layer.
 
 ## ⚙️ Methodology
 
