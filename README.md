@@ -1,4 +1,6 @@
-![Header](https://github.com/alexwang-data/Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City/blob/main/HEADER.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/alexwang-data/Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City/main/HEADER.png" width="500">
+</p>
 
 # Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City
 
