@@ -1,3 +1,5 @@
+![Header](https://github.com/alexwang-data/Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City/blob/main/HEADER.png)
+
 # Luxury-Housing-and-the-Geography-of-Inequality-in-New-York-City
 
 ## 🕵️ Overview
