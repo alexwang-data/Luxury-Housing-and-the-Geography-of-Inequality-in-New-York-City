@@ -1,0 +1,397 @@
+## Linear Regression
+
+# define a preliminary ols model 
+ols_model <- lm(log_lpi ~ poverty_pct + foreign_born_pct + bach_or_higher_pct + new_housing_pct + population_density +
+                  rent_burdened_pct + public_transit_pct, data = model_df)
+
+
+# check the preliminary model
+summary(ols_model)
+
+
+
+## Stepwise Modeling
+
+# a forward selection adds the variables one at a time
+forward <- ols_step_forward_r2(ols_model, data = model_df)
+forward
+plot(forward)
+
+
+# a backward selection starts with all variables, then remove them one by one
+backward <- ols_step_backward_r2(ols_model, data = model_df)
+backward
+plot(backward)
+
+
+# inspect the stepwise model
+str(forward)
+
+
+# extract data
+forward_df <- forward$metrics %>%
+  mutate(
+    variable = case_when(
+      variable == "bach_or_higher_pct" ~ "Bachelor's + (%)",
+      variable == "poverty_pct" ~ "Poverty (%)",
+      variable == "population_density" ~ "Population Density",
+      variable == "foreign_born_pct" ~ "Foreign-born (%)",
+      variable == "rent_burdened_pct" ~ "Rent Burdened (%)",
+      variable == "public_transit_pct" ~ "Public Transit (%)",
+      variable == "new_housing_pct" ~ "New Housing (%)",
+      TRUE ~ variable
+    )
+  )
+
+
+# ggplot stepwise model
+stepwise_forward_gg <- ggplot(forward_df, aes(x = step, y = r2)) +
+  geom_line(color = "#8D021F", linewidth = 0.8) +
+  geom_point(color = "#8D021F", size = 2) +
+  geom_text(aes(label = variable), vjust = -1, size = 3) +
+  labs(
+    x = "Step",
+    y = "R²"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(family = "Times New Roman", size = 8)
+  )
+
+stepwise_forward_gg
+
+
+# style and export with patchwork
+stepwise_forward_gg_patch <- (stepwise_forward_gg) +
+  plot_annotation(
+    title = "Forward Stepwise Selection (R²)",
+    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates",
+    theme = theme(
+      plot.title = element_text(
+        family = "Times New Roman",
+        size = 14,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      plot.caption = element_text(
+        margin = margin(t = 20),
+        family = "Times New Roman",
+        size = 8,
+        hjust = 1
+      )
+    )
+  )
+
+stepwise_forward_gg_patch
+
+
+# export as png
+ggsave("stepwise_forward_gg_patch.png", stepwise_forward_gg_patch, width = 12)
+
+
+
+## OLS Model Interpretation
+
+# define a formula based on the stepwise results
+formula <- as.formula(log_lpi ~ poverty_pct + foreign_born_pct + bach_or_higher_pct + population_density +
+                        rent_burdened_pct)
+
+# refine the ols model
+ols_model_2 <- lm(formula = formula, data = model_df)
+
+
+# interpret the refined model
+summary(ols_model_2)
+
+
+# build a gof tibble for key metrics
+# when comparing ols vs ols, use R2
+# when comparing ols vs spatial, use AIC and BIC
+
+extra_gof_ols <- tibble(
+  term = c("Num.Obs.", "R²", "Log-Likelihood", "AIC", "BIC"),
+  `OLS` = as.character(c(             # as character to bind rows
+    nobs(ols_model_2),
+    round(summary(ols_model_2)$r.squared, 3),
+    round(as.numeric(logLik(ols_model_2)), 3),
+    round(AIC(ols_model_2), 3),
+    round(BIC(ols_model_2), 3)
+  ))
+)
+
+
+# blank row for clean formatting
+blank_row_ols <- tibble(
+  term = "Model Fit Statistics",
+  OLS = ""
+)
+
+
+# output a table with modelsummary and gt
+ols_table <- modelsummary(
+  list("OLS" = ols_model_2),
+  statistic = "({std.error})",
+  stars = TRUE,
+  fmt = 8,  # N. of decimals
+  coef_map = c(
+    "poverty_pct" = "Poverty (%)",
+    "foreign_born_pct" = "Foreign-born (%)",
+    "bach_or_higher_pct" = "Bachelor's Degree + (%)",
+    "population_density" = "Population Density",
+    "rent_burdened_pct" = "Rent Burdened (%)"
+  ),
+  gof_omit = ".*",  #omit defaulf gof block
+  add_rows = bind_rows(blank_row_ols, extra_gof_ols),
+  output = "gt"
+) %>%
+  tab_header(title = "OLS Regression Results"
+  ) %>%
+  tab_source_note(
+    "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update"
+  ) %>%
+  tab_style(
+    style = cell_text(size = 16, weight = "bold"),
+    locations = cells_title()
+  ) %>%
+  tab_style(
+    style = cell_text(size = 11),
+    locations = cells_body()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "grey50", align = "right"),
+    locations = cells_source_notes()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#C97C5D"),
+    locations = cells_body(rows = 15)
+  ) %>%
+  tab_options(
+    table.font.names = "Times New Roman",
+    heading.align = "center",
+    source_notes.font.size = 9
+  )
+
+ols_table
+
+
+# export as png
+gtsave(ols_table, "ols_table.png")
+
+
+
+## Exponentiation
+
+
+# double check variable scale before exponentiation to account for log transformation
+summary(model_df)
+
+
+# extract coefficients
+ols_betas <- coef(ols_model_2)
+
+
+# build a pct effects tibble
+ols_pct_effects_df <- tibble(
+  Variable = c(
+    "Poverty (%)",
+    "Foreign-born (%)",
+    "Bachelor's + (%)",
+    "Rent Burdened (%)"
+  ),
+  Change = "10 percentage points",
+  Effects = c(
+    (exp(ols_betas["poverty_pct"] * 0.10) -1 ) * 100,
+    (exp(ols_betas["foreign_born_pct"] * 0.10) -1 ) * 100,
+    (exp(ols_betas["bach_or_higher_pct"] * 0.10) -1 ) * 100,
+    (exp(ols_betas["rent_burdened_pct"] * 0.10) -1 ) * 100
+  )
+)
+
+
+# build a density effects tibble
+ols_density_effects_df <- tibble(
+  Variable = "Population Density",
+  Change = "10,000 People",
+  Effects = (exp(ols_betas["population_density"] * 10000) -1 ) * 100
+)
+
+
+# bind tibbles
+ols_effects_df <- bind_rows(ols_pct_effects_df, ols_density_effects_df)
+
+
+# build a table with gt
+ols_effects_table <- ols_effects_df %>%
+  mutate(Effects = round(Effects, 3)) %>%
+  gt() %>%
+  tab_header(title = "Exponentiated OLS Coefficients") %>%
+  cols_label(
+    Variable = "Variable",
+    Change = "Change in Predictor",
+    Effects = "% Change in Luxury Pressure"
+  ) %>%
+  tab_source_note(
+    "Note: Estimated percent effects from OLS model. Effects are calculated as (exp(β × ΔX) - 1) × 100."
+  ) %>%
+  tab_style(
+    style = cell_text(size = 16, weight = "bold"),
+    locations = cells_title()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "grey50", align = "right"),
+    locations = cells_source_notes()
+  ) %>%
+  tab_options(
+    table.font.names = "Times New Roman",
+    heading.align = "center",
+    source_notes.font.size = 9
+  )
+
+ols_effects_table
+
+
+# export as png
+gtsave(ols_effects_table, "ols_effects_table.png")
+
+
+## Check Statistical Assumptions
+
+# create a tibble
+assumptions_df <- tibble(
+  resid = resid(ols_model_2),
+  fitted = fitted(ols_model_2),
+  hat = hatvalues(ols_model_2),
+  cooks = cooks.distance(ols_model_2)
+)
+
+
+# assumption 1: normality of errors
+hist_of_resid <- ggplot(assumptions_df, aes(x = resid)) +
+  geom_histogram(bins = 30, fill = "#6F7F8C", color = "#2F2F2F") +
+  labs(
+    title = "Normality of Errors"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+hist_of_resid 
+
+
+# assumption 2: homoscedasticity of errors
+resid_vs_fitted <- ggplot(assumptions_df, aes(x = fitted, y = resid)) +
+  geom_point(color = "#8C3B2A", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "#2F2F2F") +
+  labs(
+    title = "Homoscedasticity of Errors"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+resid_vs_fitted
+
+
+# heteroskedasticity consistent covariance matrix for robust standard errors
+coeftest(ols_model_2, vcov = vcovHC(ols_model, type = "HC1"))
+
+
+# assumption 3: absence of outliers
+hat_values <- ggplot(assumptions_df, aes(x = seq_along(hat), y = hat)) +
+  geom_point(color = "#7A7A7A") +
+  labs(
+    title = "Hat Values"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+hat_values  # predictors
+
+
+cooks_distance <- ggplot(assumptions_df, aes(x = seq_along(cooks), y = cooks)) +
+  geom_point(color = "#C97C5D") +
+  labs(
+    title = "Cook's Distance"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+cooks_distance  # the whole model
+
+
+# assumption 4: variance inflation factor
+# build a table with gt
+vif <- car::vif(ols_model_2) %>%
+  tibble() %>%
+  round(3) %>%
+  rownames_to_column(var = "Variable") %>%
+  rename(VIF = ".") %>%
+  mutate(
+    Variable = c(
+      "Poverty (%)",
+      "Foreign-born (%)",
+      "Bachelor's Degree or Higher (%)",
+      "Population Density",
+      "Rent Burdened (%)"
+    ) 
+  ) %>%
+  gt() %>%
+  tab_header(
+    title = "Variance Inflation Factor"
+  ) %>%
+  tab_source_note(
+    "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates"
+  ) %>%
+  tab_style(
+    style = cell_text(size = 16, weight = "bold"),
+    locations = cells_title()
+  ) %>%
+  tab_style(
+    style = cell_text(size = 11),
+    locations = cells_body()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "grey50", align = "right"),
+    locations = cells_source_notes()
+  ) %>%
+  tab_options(
+    table.font.names = "Times New Roman",
+    heading.align = "center",
+    source_notes.font.size = 9
+  )
+
+vif
+
+
+# export as png
+gtsave(vif, "vif.png")
+
+
+# assemble plots with patchwork
+assumptions_plots <- ((hist_of_resid) | (resid_vs_fitted)) / ((hat_values) | (cooks_distance)) +
+  plot_annotation(
+    title = "Regression Assumption Diagnostics",
+    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update",
+    theme = theme(
+      plot.title = element_text(
+        family = "Times New Roman",
+        size = 14,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      plot.caption = element_text(
+        margin = margin(t = 20),
+        family = "Times New Roman",
+        size = 8,
+        hjust = 1
+      )
+    )
+  )
+
+assumptions_plots
+
+
+# export as png
+ggsave("assumptions_plots.png", assumptions_plots)

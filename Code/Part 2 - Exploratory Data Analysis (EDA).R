@@ -1,0 +1,274 @@
+## Data Cleaning
+
+# drop geometry and handle null values
+model_df <- final %>%
+  st_drop_geometry() %>%
+  rename(poverty_pct = poverty_pct.x) %>%
+  select(
+    luxury_pressure_index, poverty_pct, foreign_born_pct, bach_or_higher_pct, new_housing_pct, population_density,
+    rent_burdened_pct, public_transit_pct
+  ) %>%
+  filter(!is.na(luxury_pressure_index))
+
+
+# descriptive statistics with psych and gt
+descriptive_stat <- describe(model_df %>%
+                               select(luxury_pressure_index, poverty_pct, foreign_born_pct, bach_or_higher_pct, new_housing_pct, population_density, 
+                                      rent_burdened_pct, public_transit_pct)
+)[, c("mean", "median", "sd", "min", "max", "skew")] %>%
+  round(3) %>%
+  rownames_to_column(var = "Variable") %>%
+  mutate(
+    Variable = c(
+      "Luxury Pressure Index",
+      "Poverty (%)",
+      "Foreign-born (%)",
+      "Bachelor's Degree or Higher (%)",
+      "New Housing (%)",
+      "Population Density",
+      "Rent Burdened (%)",
+      "Public Transit (%)"
+    )
+  ) %>%
+  gt() %>%
+  tab_header(
+    title = "Descriptive Statistics"
+  ) %>%
+  tab_source_note(
+    "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update"
+  ) %>%
+  tab_style(
+    style = cell_text(size = 16, weight = "bold"),
+    locations = cells_title()
+  ) %>%
+  tab_style(
+    style = cell_text(size = 11),
+    locations = cells_body()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "grey50", align = "right"),
+    locations = cells_source_notes()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#C97C5D"),
+    locations = cells_body(columns = skew)
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#C97C5D"),
+    locations = cells_column_labels(columns = skew)
+  ) %>%
+  tab_options(
+    table.font.names = "Times New Roman",
+    heading.align = "center",
+    source_notes.font.size = 9
+  )
+
+descriptive_stat
+
+
+# export as png
+gtsave(descriptive_stat, "descriptive_stat.png")
+
+
+# apply log transformation to reduce skewness
+model_df <- model_df %>%
+  mutate(log_lpi = log(luxury_pressure_index))
+
+
+# standardize variable scale, 0-1
+model_df <- model_df %>%
+  mutate(poverty_pct = poverty_pct / 100)
+
+
+
+## Visualization
+
+# distribution of LPI before and after log
+LPI_before_log <- ggplot(model_df, aes(x = luxury_pressure_index)) +
+  geom_histogram(bins = 50, fill = "#8C3B2A", color = "#2F2F2F") +
+  labs(
+    title = "Before Log",
+    x = "Luxury Pressure Index",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+LPI_before_log
+
+
+LPI_after_log <- ggplot(model_df, aes(x = log_lpi)) +
+  geom_histogram(bins = 50, fill = "#8C3B2A", color = "#2F2F2F") +
+  labs(
+    title = "After Log",
+    x = "Log Luxury Pressure Index",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+LPI_after_log
+
+
+LPI_plots <- ((LPI_before_log) | (LPI_after_log)) +
+  plot_annotation(
+    title = "Distribution of Luxury Pressure Index",
+    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update",
+    theme = theme(
+      plot.title = element_text(
+        family = "Times New Roman",
+        size = 14,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      plot.caption = element_text(
+        margin = margin(t = 20),
+        family = "Times New Roman",
+        size = 8,
+        hjust = 1
+      )
+    )
+  )
+
+LPI_plots
+
+
+# export as png
+ggsave("LPI_plots.png", LPI_plots)
+
+
+# build a correlation data frame
+corr_df <- model_df %>%
+  select(
+    log_lpi,
+    poverty_pct,
+    foreign_born_pct,
+    bach_or_higher_pct,
+    population_density,
+    rent_burdened_pct
+  ) %>%
+  rename(
+    Log_LPI = log_lpi,
+    Poverty = poverty_pct,
+    Foreign_Born = foreign_born_pct,
+    Higher_Education = bach_or_higher_pct,
+    Population_Density = population_density,
+    Rent_Burdened = rent_burdened_pct
+  )
+
+
+# build a correlation matrix
+corr_matrix <- ggcorr(
+  data = corr_df,
+  method = c("pairwise", "pearson"),
+  label = TRUE,
+  label_size = 3,
+  size = 2.5) +
+  theme_minimal()
+
+corr_matrix
+
+
+# export plot with patchwork
+corr_matrix_patch <- (corr_matrix) +
+  plot_annotation(
+    title = "Correlation Matrix of Socioeconomic Variables",
+    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update",
+    theme = theme(
+      plot.title = element_text(
+        family = "Times New Roman",
+        size = 14,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      plot.caption = element_text(
+        margin = margin(t = 20),
+        family = "Times New Roman",
+        size = 8,
+        hjust = 0.5
+      )
+    )
+  )
+
+
+corr_matrix_patch
+
+
+# export as png
+ggsave("corrmatrix.png", corr_matrix_patch)
+
+
+# explore relationships
+poverty_vs_lpi <- ggplot(model_df, aes(x = poverty_pct, y = log_lpi)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", color = "#8D021F") +
+  labs(
+    title = "Poverty vs. Luxury Pressure",
+    x = "Poverty Rate (%)",
+    y = "Luxury Pressure Index"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+poverty_vs_lpi
+
+
+education_vs_lpi <- ggplot(model_df, aes(x = bach_or_higher_pct, y = log_lpi)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", color = "#6F7F8C") +
+  labs(
+    title = "Higher Education vs. Luxury Pressure",
+    x = "Bachelor's + (%)",
+    y = "Luxury Pressure Index"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+education_vs_lpi
+
+
+rent_vs_lpi <- ggplot(model_df, aes(x = rent_burdened_pct, y = log_lpi)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", color = "#C97C5D") +
+  labs(
+    title = "Rent Burdened vs. Luxury Pressure",
+    x = "Income on Rent (30%+)",
+    y = "Luxury Pressure Index"
+  ) +
+  theme_minimal() +
+  theme(text = element_text(family = "Times New Roman", size = 8),
+        plot.title = element_text(hjust = 0.5))
+
+rent_vs_lpi
+
+
+# assemble plots with patchwork
+relationship_plots <- ((poverty_vs_lpi) | (education_vs_lpi) | (rent_vs_lpi)) +
+  plot_annotation(
+    title = "Luxury Pressure Across Key Socioeconomic Dimensions",
+    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update",
+    theme = theme(
+      plot.title = element_text(
+        family = "Times New Roman",
+        size = 14,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      plot.caption = element_text(
+        margin = margin(t = 20),
+        family = "Times New Roman",
+        size = 8,
+        hjust = 1
+      )
+    )
+  )
+
+relationship_plots
+
+
+# export as png
+ggsave("relationships.png", relationship_plots)
