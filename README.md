@@ -164,7 +164,7 @@ Black, B. D., & Richards, M. (2020). Eco-gentrification and who benefits from ur
 https://doi.org/10.1016/j.landurbplan.2020.103900 <br><br>
 
 Bogin, A., Doerner, W., & Larson, W. (2023). Estimating census tract house price indexes: A new spatial dynamic factor approach. Journal of Real Estate Finance and Economics. <br>
-https://doi.org/10.1007/s11146-023-09954-z <br><br>
+https://link.springer.com/article/10.1007/s11146-023-09957-w <br><br>
 
 Freeman, L. (2005). Displacement or succession? Residential mobility in gentrifying neighborhoods. Urban Affairs Review, 40(4), 463–491. <br>
 https://ds4ps.org/cpp-528-spr-2020/articles/gentrification/displacement-or-succession.pdf <br><br>
