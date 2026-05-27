@@ -6,7 +6,7 @@
 
 ## 🕵️ Overview
 
-*Detailed study report available upon request.*
+*Detailed study report available upon request.* <br><br>
 
 New York City is a tale of two cities, where immense wealth and extreme poverty exist in stark proximity within a single metropolis. While the US National Gini Index hovered around 0.40, New York City’s reached 0.55 (reported in Black & Richards, 2020), placing it among the most unequal large cities in the country. Nowhere is this divide more visible than in the housing market. On one block, ultra-luxury condominiums sell for tens of millions of dollars; a few blocks away, half of renter households are rent-burdened, spending more than 30% of their income on rent (ANHD, 2025). Between 2010 and 2019, the city’s luxury housing market grew by 102%, intensifying in already-affluent neighborhoods on the west side of Manhattan while expanding into recently gentrified parts of northern and central Brooklyn (Lauermann, 2021). 
 
