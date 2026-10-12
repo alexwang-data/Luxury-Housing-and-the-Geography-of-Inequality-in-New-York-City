@@ -137,13 +137,14 @@ Follow the Geoprocessing Model workflow. <br>
 
 Following Lauermann (2021), luxury housing is defined as residential properties sold for at least $2 million per unit, which is the threshold New York City adopted in 2019 for a “mansion tax” on real estate sales.
 
-Transaction records were obtained from NYC Open Data’s Citywide Annualized Calendar Sales via the Socrata API and filtered to residential properties. Neighborhood characteristics were drawn from the 2020 American Community Survey 5-year estimates at the census tract level via the Census API. Both datasets were spatially joined in a common projected coordinate system.
+Transaction records were obtained from NYC Open Data’s Citywide Annualized Calendar Sales via the Socrata API and filtered to residential properties. Neighborhood characteristics were drawn from the 2020 American Community Survey 5-year estimates at the census tract level via the Census API. Both datasets were spatially joined in a common projected coordinate system, restricting the study to tracts with 500 or more residents to focus strictly on established residential areas. This threshold is informed by applied gentrification and displacement mapping practices (Urban Displacement Project, 2019).
 
-For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 455 tracts.
+For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 457 tracts.
 
 To support visual interpretation, LPI values were also aggregated to Neighborhood Tabulation Areas (NTAs). An Optimized Hot Spot Analysis (Getis-Ord Gi*) was run on luxury price-per-unit at the individual transaction level to identify statistically significant clusters of high- and low value sales.
 
-Because the LPI was right-skewed, it was log-transformed for regression. An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Moran’s I (Anselin, 1995) revealed significant spatial autocorrelation in the LPI (I = 0.42, p < 0.05), violating OLS independence assumptions, so a spatial lag regression (Anselin, 1988) was used. 
+Because the LPI was right-skewed, it was log-transformed for regression. An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Moran’s I (Anselin, 1995) revealed significant spatial autocorrelation in the LPI (I = 0.34, p < 0.001), violating OLS independence assumptions, so a spatial lag regression (Anselin, 1988) was used. To account for spatial isolates across slightly disconnected tracts, a snap distance was applied to the Queen contiguity spatial weight matrix (Pebesma & Bivand, 2023)
+
 
 
 ## 🗺️ Analysis
@@ -158,7 +159,8 @@ The spatial lag regression quantifies these patterns and identifies which neighb
 ## 🎬 Conclusion
 The results support the alternative hypothesis that the luxury housing market is concentrated in socioeconomically vulnerable neighborhoods. Higher poverty and rent burden are associated with greater luxury pressure, while higher educational attainment is associated with lower pressure. This profile is broadly consistent with characteristics used to identify neighborhoods vulnerable to gentrification or “gentrification eligible” in prior research (Freeman, 2005) and aligns with socioeconomic indicators commonly employed in recent quantitative studies of gentrification and super-gentrification (Lauermann et al., 2025).
 
-Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change as luxury capital arrives, intensifies, or recedes. Second, residual spatial autocorrelation remained after modeling (Moran’I = 0.18), indicating that some spatial structure is not fully explained by the included predictors. Alternative model specifications could further reduce residual clustering and refine the estimates.
+Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change. Second, while a minor trace of residual spatial autocorrelation remained (Moran’I = 0.08, p < 0.001), its magnitude is negligible and indicates that the spatial lag model successfully resolved the primary spatial dependencies in the data.
+
 
 
 ## 💡 References
