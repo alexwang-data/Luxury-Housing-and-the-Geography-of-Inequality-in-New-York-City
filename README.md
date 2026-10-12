@@ -225,6 +225,9 @@ https://www.nyc.gov/content/planning/pages/our-work/plans/citywide/mandatory-inc
 New York City Mayor’s Office. (2026, April). Mayor Mamdani and Governor Hochul announce the state's first pied-à-terre tax proposal. <br>
 https://www.nyc.gov/mayors-office/news/2026/04/mayor-mamdani–governor-hochul-announce-state-s-first-pied-a-ter <br><br>
 
+Pebesma, E., & Bivand, R. (2023). Spatial Data Science: With Applications in R (1st ed.). Chapman and Hall/CRC. <br>
+https://doi.org/10.1201/9780429459016 <br><br>
+
 Sassen, S. (1991). The global city: New York, London, Tokyo. Princeton University Press. <br><br>
 
 Stabrowski, F. (2015). Inclusionary zoning and exclusionary development: The politics of “affordable housing” in North Brooklyn. International Journal of Urban and Regional Research, 39(6), 1120–1136. <br>
