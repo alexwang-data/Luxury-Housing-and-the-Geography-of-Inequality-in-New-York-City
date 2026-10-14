@@ -236,8 +236,8 @@ Stein, S. (2019). Capital city: Gentrification and the real estate state. Verso.
 The Wall Street Journal. (2016, October 20). Immigrant investor program for poor neighborhoods benefits rich ones more, study shows. <br>
 https://www.wsj.com/articles/immigrant-investor-program-for-poor-neighborhoods-benefits-rich-ones-more-study-shows-1476917304 <br><br>
 
-Urban Displacement Project. (2019, January). Gentrification and displacement census tract typologies: Methodology for New York [Methodology document]. <br>
-University of California, Berkeley. https://www.urbandisplacement.org/wp-content/uploads/2021/07/udp_methodology_for_ny_-_jan_2019.pdf <br><br>
+Urban Displacement Project. (2019, January). Gentrification and displacement census tract typologies: Methodology for New York [Methodology document]. University of California, Berkeley. <br>
+https://www.urbandisplacement.org/wp-content/uploads/2021/07/udp_methodology_for_ny_-_jan_2019.pdf <br><br>
 
 
 ## ⚖️ License
