@@ -135,7 +135,7 @@ Follow the Geoprocessing Model workflow. <br>
 
 Following Lauermann (2021), luxury housing is defined as residential properties sold for at least $2 million per unit, which is the threshold New York City adopted in 2019 for a “mansion tax” on real estate sales.
 
-Transaction records were obtained from NYC Open Data’s Citywide Annualized Calendar Sales via the Socrata API and filtered to residential properties. Neighborhood characteristics were drawn from the 2020 American Community Survey 5-year estimates at the census tract level via the Census API. Both datasets were spatially joined in a common projected coordinate system, restricting the study to tracts with 500 or more residents to focus strictly on established residential areas. This threshold is informed by applied gentrification and displacement mapping practices (Urban Displacement Project, 2019).
+Transaction records were obtained from NYC Open Data’s Citywide Annualized Calendar Sales via the Socrata API and filtered to residential properties. Neighborhood characteristics were drawn from the 2020 American Community Survey 5-year estimates at the census tract level via the Census API. Both datasets were spatially joined in a common projected coordinate system. To focus on established residential areas, the analysis was limited to tracts with 500 or more residents, a threshold informed by the Urban Displacement Project’s New York methodology (Urban Displacement Project, 2019).
 
 For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 457 tracts.
 
