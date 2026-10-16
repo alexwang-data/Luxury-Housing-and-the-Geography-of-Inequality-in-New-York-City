@@ -122,8 +122,8 @@ spatial_error_table <- modelsummary(
     "poverty_pct" = "Poverty",
     "foreign_born_pct" = "Foreign-born",
     "bach_or_higher_pct" = "Bachelor's Degree +",
-    "population_density" = "Population Density",
-    "rent_burdened_pct" = "Rent Burdened"
+    "rent_burdened_pct" = "Rent Burdened",
+    "population_density" = "Population Density"
   ),
   gof_omit = ".*",  #omit default gof block
   add_rows = bind_rows(blank_row_spatial, extra_gof_spatial),
