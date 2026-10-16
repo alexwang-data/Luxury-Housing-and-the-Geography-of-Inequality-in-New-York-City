@@ -1,107 +1,23 @@
-## Part 4: Spatial Autocorrelation_________________________________________________________
-
-
-## Exploratory Mapping
-
-# create a borough variable
-final <- final %>%
-  mutate(
-    borough_code = substr(GEOID, 1, 5),
-    borough = case_when(
-      borough_code == "36005" ~ "Bronx",
-      borough_code == "36047" ~ "Brooklyn",
-      borough_code == "36061" ~ "Manhattan",
-      borough_code == "36081" ~ "Queens",
-      borough_code == "36085" ~ "Staten Island"
-    )
-  )
-
-
-# color palettes
-RColorBrewer::display.brewer.all()
-
-
-# map NYC census tracts
-map_borough <- ggplot(final) +
-  geom_sf(aes(fill = borough), color = "black", size = .1) +
-  scale_fill_brewer(palette = "Greys") +
-  labs(
-    title = "NYC Census Tracts (Borough Boundaries)",
-    fill = "Borough"
-  ) +
-  theme_minimal() +
-  theme(text = element_text(family = "Tahoma", size = 8),
-        plot.title = element_text(hjust = 0.5))
-
-map_borough
-
-
-# map a variable of interest
-map_choropleth <- ggplot(data = final) +
-  geom_sf(aes(fill = luxury_pressure_index), color = NA) +
-  scale_fill_distiller(palette = "Reds",       # define color fill
-                       direction = 1,          # ramp from light to dark
-                       name = "Years\n(sales / income)",     # label the legend
-                       na.value = "gray90") +  # color for nulls
-  labs(
-    title = "Luxury Pressure Index (Census Tract Level)"
-  ) +
-  theme_minimal() +
-  theme(text = element_text(family = "Tahoma", size = 8),
-        plot.title = element_text(hjust = 0.5))
-
-map_choropleth
-
-
-# assemble plots with patchwork
-spatial_plots <- ((map_borough) | (map_choropleth)) +
-  plot_annotation(
-    title = "Luxury Pressure Across New York City",
-    caption = "Source: U.S. Census Bureau, 2020 ACS 5-Year Estimates; City of New York (NYC Open Data), 2025 Citywide Annualized Calendar Sales Update",
-    theme = theme(
-      plot.title = element_text(
-        family = "Tahoma",
-        size = 14,
-        hjust = 0.5,
-        face = "bold"
-      ),
-      plot.caption = element_text(
-        margin = margin(t = 20),
-        family = "Tahoma",
-        size = 8,
-        hjust = 1
-      )
-    )
-  )
-
-spatial_plots
-
-
-# export as png
-ggsave("spatial_plots.png", spatial_plots)
-
-
-
-## Spatial Autocorrelation
+## Part 4: Spatial Autocorrelation
 
 # create spatial data frame and drop nulls in variable of interest
 spatial_df <- final %>%
   filter(!is.na(luxury_pressure_index)) %>%
   mutate(log_lpi = log(luxury_pressure_index))
-
+  
 
 # create spatial weights / spatial neighbors
 neighborlist <- poly2nb(pl = spatial_df, # polygons
                         queen = TRUE,    # concept for matrix
                         snap = 1500)
-
+   
 
 
 
 neighborlist <- poly2nb(spatial_df, queen = TRUE, snap = 1500)
 listweights <- nb2listw(neighbours = neighborlist, # neighborhoods
-                        style = "W",
-                        zero.policy = TRUE)
+style = "W",
+zero.policy = TRUE)
 
 
 
@@ -116,6 +32,10 @@ global_moran <- moran.test(x = spatial_df$log_lpi,
                            zero.policy = TRUE)
 
 global_moran
+
+
+# LM test for model selection
+lm.RStests(ols_model_2, listweights, test = "all", zero.policy = TRUE) # error and then lag
 
 
 # compute spatial lag
@@ -135,7 +55,7 @@ moran_lpi <- ggplot(spatial_df, aes(x = lpi_std, y = lag_std_moran)) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   annotate("text", x = 4, y = -1, label = "Moran's I = 0.34", size = 3) +
   labs(
-    title = "Moran of Luxury Pressure",
+    title = "Global Moran of Luxury Pressure",
     x = "Standardized Luxury Pressure Index",
     y = "Spatially Lagged Luxury Pressure Index"
   ) +
@@ -160,15 +80,27 @@ names(spatial_model)
 summary(spatial_model)
 
 
+## Spatial Error Regression
+spatial_error <- errorsarlm(formula = formula,
+                            data = model_df,
+                            listw = listweights,
+                            zero.policy = TRUE,
+                            na.action = na.omit)
+
+# intepret model results
+names(spatial_error)
+summary(spatial_error)
+
+
 # build a gof tibble for key metrics
 extra_gof_spatial <- tibble(
-  term = c("Num.Obs.", "Rho", "Log-Likelihood", "AIC", "BIC"),
-  `Spatial Lag` = as.character(c(
-    nobs(spatial_model),
-    round(spatial_model$rho, 3),
-    round(as.numeric(logLik(spatial_model)), 3),
-    round(AIC(spatial_model), 3),
-    round(BIC(spatial_model), 3)
+  term = c("Num.Obs.", "Lambda", "Log-Likelihood", "AIC", "BIC"),
+  `Spatial Error` = as.character(c(
+    nobs(spatial_error),
+    round(spatial_error$lambda, 3),
+    round(as.numeric(logLik(spatial_error)), 3),
+    round(AIC(spatial_error), 3),
+    round(BIC(spatial_error), 3)
   ))
 )
 
@@ -176,13 +108,13 @@ extra_gof_spatial <- tibble(
 # blank row for clean formatting
 blank_row_spatial <- tibble(
   term = "Model Fit Statistics",
-  `Spatial Lag` = ""
+  `Spatial Error` = ""
 )
 
 
 # output a table with modelsummary and gt
-spatial_lag_table <- modelsummary(
-  list("Spatial Lag" = spatial_model),
+spatial_error_table <- modelsummary(
+  list("Spatial Error" = spatial_error),
   statistic = "({std.error})",
   stars = TRUE,
   fmt = 8,  # N. of decimals
@@ -197,7 +129,7 @@ spatial_lag_table <- modelsummary(
   add_rows = bind_rows(blank_row_spatial, extra_gof_spatial),
   output = "gt"
 ) %>%
-  tab_header(title = "Spatial Lag Regression Results"
+  tab_header(title = "Spatial Error Regression Results"
   ) %>%
   tab_style(
     style = cell_text(size = 16, weight = "bold"),
@@ -217,11 +149,11 @@ spatial_lag_table <- modelsummary(
     source_notes.font.size = 9
   )
 
-spatial_lag_table
+spatial_error_table
 
 
 # export as png
-gtsave(spatial_lag_table, "spatial_lag_table.png",
+gtsave(spatial_error_table, "spatial_error_table.png",
        vwidth = 1000,    # wide
        vheight = 900,   # tall 
        zoom = 2,
@@ -235,7 +167,7 @@ summary(model_df)
 
 
 # extract coefficients
-spatial_betas <- coef(spatial_model)
+spatial_betas <- coef(spatial_error)
 
 
 # build a pct effects tibble
@@ -272,7 +204,7 @@ spatial_effects_df <- bind_rows(spatial_pct_effects_df, spatial_density_effects_
 spatial_effects_table <- spatial_effects_df %>%
   mutate(Effects = round(Effects, 3)) %>%
   gt() %>%
-  tab_header(title = "Exponentiated Spatial Lag Coefficients") %>%
+  tab_header(title = "Exponentiated Spatial Error Coefficients") %>%
   cols_label(
     Variable = "Variable",
     Change = "Change in Predictor",
@@ -303,17 +235,31 @@ gtsave(spatial_effects_table, "spatial_effects_table.png",
        expand = 10)
 
 
+# residuals OLS
+model_df$resid <- as.numeric(residuals(ols_model_2))
 
-# residuals moran's I
-spatial_df$resid <- as.numeric(residuals(spatial_model))
-
-
-resid_moran <- moran.test(x = spatial_df$resid, 
+resid_moran_ols <- moran.test(x = model_df$resid, 
                           listw = listweights, 
                           randomisation = TRUE,
                           alternative = "greater",
                           na.action = na.omit,
                           zero.policy = TRUE)
+
+resid_moran_ols
+
+
+
+
+# residuals moran's I
+spatial_df$resid <- as.numeric(residuals(spatial_error))
+
+
+resid_moran <- moran.test(x = spatial_df$resid, 
+                           listw = listweights, 
+                           randomisation = TRUE,
+                           alternative = "greater",
+                           na.action = na.omit,
+                           zero.policy = TRUE)
 
 resid_moran
 
@@ -333,9 +279,9 @@ moran_resid <- ggplot(spatial_df, aes(x = resid_std, y = lag_std_resid)) +
   geom_smooth(method = "lm", color = "#E07A7A", se = FALSE) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   geom_vline(xintercept = 0, linetype = "dashed") +
-  annotate("text", x = 6, y = -1.4, label = "Moran's I = 0.08", size = 3) +
+  annotate("text", x = 6, y = -1.4, label = "Moran's I = -0.03", size = 3) +
   labs(
-    title = "Moran of Residuals",
+    title = "Global Moran of Spatial Error Residuals",
     x = "Standardized Residuals",
     y = "Spatially Lagged Residuals"
   ) +
@@ -361,7 +307,7 @@ moran_plots <- ((moran_lpi) | (moran_resid)) +
       )
     )
   )
-
+      
 moran_plots
 
 
@@ -370,22 +316,23 @@ ggsave("moran_plots.png", moran_plots, width = 9, height = 4, dpi = 300)
 
 
 
-
+  
 # map residuals
 resid_map <- ggplot(spatial_df) +
-  geom_sf(aes(fill = lag_resid)) +
-  scale_fill_gradient2(
-    low = "#2166AC",
-    mid = "white",
-    high = "#B2182B",
-    midpoint = 0,
-  ) +
-  labs(
-    fill = "Residual"
-  ) +
-  theme_minimal()
+ geom_sf(aes(fill = lag_resid)) +
+ scale_fill_gradient2(
+   low = "#2166AC",
+   mid = "white",
+   high = "#B2182B",
+   midpoint = 0,
+ ) +
+ labs(
+   fill = "Residual"
+ ) +
+ theme_minimal()
 
 resid_map
 
 # export as png
 ggsave("resid_map.png", resid_map, width = 6, height = 6, dpi = 300, bg = "transparent")
+
