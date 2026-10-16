@@ -21,12 +21,6 @@ forward
 plot(forward)
 
 
-# a backward selection starts with all variables, then remove them one by one
-backward <- ols_step_backward_r2(ols_model, data = model_df)
-backward
-plot(backward)
-
-
 # inspect the stepwise model
 str(forward)
 
