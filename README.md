@@ -137,12 +137,12 @@ Following Lauermann (2021), luxury housing is defined as residential properties 
 
 Transaction records were obtained from NYC Open Data’s Citywide Annualized Calendar Sales via the Socrata API and filtered to residential properties. Neighborhood characteristics were drawn from the 2020 American Community Survey 5-year estimates at the census tract level via the Census API. Both datasets were spatially joined in a common projected coordinate system. To focus on established residential areas, the analysis was limited to tracts with 500 or more residents, a threshold informed by the Urban Displacement Project’s New York methodology (Urban Displacement Project, 2019).
 
-For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 457 tracts.
+For each tract, a Luxury Pressure Index (LPI) was calculated as the ratio of median luxury price-per-unit to median household income. Tracts with fewer than five luxury sales were excluded to ensure reliability, yielding a final sample of 451 tracts.
 
 To support visual interpretation, LPI values were also aggregated to Neighborhood Tabulation Areas (NTAs). An Optimized Hot Spot Analysis (Getis-Ord Gi*) was run on luxury price-per-unit at the individual transaction level to identify statistically significant clusters of high- and low value sales.
 
-Because the LPI was right-skewed, it was log-transformed for regression. An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Moran’s I (Anselin, 1995) revealed significant spatial autocorrelation in the LPI (I = 0.34, p < 0.001), violating OLS independence assumptions, so a spatial lag regression (Anselin, 1988) was used. To account for spatial isolates across slightly disconnected tracts, a snap distance was applied to the Queen contiguity spatial weight matrix (Pebesma & Bivand, 2023)
-
+Because the LPI was right-skewed, it was log-transformed for regression. An ordinary least squares model was fit using forward stepwise selection, retaining poverty rate, foreign-born share, educational attainment, rent burden, and population density as predictors. Standard OLS diagnostics (residual normality, homoscedasticity, leverage, and multicollinearity) were checked and reasonably satisfied. Global Moran’s I (Moran, 1950) revealed significant spatial autocorrelation in the LPI (I = 0.34, p < 0.001) and OLS residuals were also spatially autocorrelated (I = 0.10, p < 0.001). Lagrange Multiplier diagnostics (Anselin, 1988; Anselin et al., 1996) favored a spatial error specification (RSerr p < 0.001; RSlag p = 0.11), so a spatial error model was used. To reduce spatial isolates, a snap distance 
+of 1,500 m was applied to the queen contiguity spatial weight matrix (Pebesma & Bivand, 2023).
 
 
 ## 🗺️ Analysis
@@ -157,7 +157,8 @@ The spatial lag regression quantifies these patterns and identifies which neighb
 ## 🎬 Conclusion
 The results support the alternative hypothesis that the luxury housing market is concentrated in socioeconomically vulnerable neighborhoods. Higher poverty and rent burden are associated with greater luxury pressure, while higher educational attainment is associated with lower pressure. This profile is broadly consistent with characteristics used to identify neighborhoods vulnerable to gentrification or “gentrification eligible” in prior research (Freeman, 2005) and aligns with socioeconomic indicators commonly employed in recent quantitative studies of gentrification and super-gentrification (Lauermann et al., 2025).
 
-Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change. Second, while a minor trace of residual spatial autocorrelation remained (Moran’I = 0.08, p < 0.001), its magnitude is negligible and indicates that the spatial lag model successfully resolved the primary spatial dependencies in the data.
+Two limitations qualify these findings. First, the LPI is cross-sectional and cannot capture how luxury pressure changes over time; future research could introduce a temporal dimension to track neighborhood change. Second, the significant spatial error term (λ = 0.37, p < 0.001) indicates that spatially clustered factors such as housing stock, amenities, or development activity, also shape luxury pressure. Although the spatial error model eliminated residual autocorrelation (Moran’s I = -0.03, p = 0.91), future work could incorporate these omitted neighborhood characteristics.
+
 
 
 
@@ -166,56 +167,61 @@ Two limitations qualify these findings. First, the LPI is cross-sectional and ca
 Aalbers, M. B. (2016). The financialization of housing: A political economy approach. Routledge. <br><br>
 
 Anselin, L. (1988). Spatial econometrics: Methods and models. Kluwer Academic Publishers. <br>
- https://web.pdx.edu/~crkl/WISE/SEAUG/papers/anselin01_CTE14.pdf <br><br>
+https://web.pdx.edu/~crkl/WISE/SEAUG/papers/anselin01_CTE14.pdf <br><br>
  
 Anselin, L. (1995). Local indicators of spatial association—LISA. Geographical Analysis, 27(2), 93–115. <br>
- https://doi.org/10.1111/j.1538-4632.1995.tb00338.x <br><br>
+https://doi.org/10.1111/j.1538-4632.1995.tb00338.x <br><br>
+
+Anselin, L., Bera, A. K., Florax, R., & Yoon, M. J. (1996). Simple diagnostic tests for spatial dependence. Regional Science and Urban Economics, 26(1), 77-104. <br>
+https://doi.org/10.1016/0166-0462(95)02111-6 <br><br>
  
 Association for Neighborhood & Housing Development. (2025). 2025 AMI cheat sheet: New housing is not affordable to the majority of New Yorkers. <br>
 https://anhd.org/report/2025-ami-cheat-sheet-new-housing-is-not-affordable-to-the-majority-of-new-yorkers/ <br><br>
 
 Atkinson, R. (2019). Necrotecture: Lifeless dwellings and London’s super-rich. International Journal of Urban and Regional Research, 43(1), 2–13. <br>
- https://doi.org/10.1111/1468-2427.12707 <br><br>
+https://doi.org/10.1111/1468-2427.12707 <br><br>
  
 Black, B. D., & Richards, M. (2020). Eco-gentrification and who benefits from urban green amenities: NYC’s High Line. Landscape and Urban Planning, 204, 103900. <br>
- https://doi.org/10.1016/j.landurbplan.2020.103900 <br><br>
+https://doi.org/10.1016/j.landurbplan.2020.103900 <br><br>
  
 Bogin, A., Doerner, W., & Larson, W. (2023). Estimating census tract house price indexes: A new spatial dynamic factor approach. Journal of Real Estate Finance and Economics. <br>
- https://link.springer.com/article/10.1007/s11146-023-09957-w <br><br>
+https://link.springer.com/article/10.1007/s11146-023-09957-w <br><br>
  
 Fernandez, R., Hofman, A., & Aalbers, M. B. (2016). London and New York as a safe deposit box for the transnational wealth elite. Environment and Planning A: Economy and Space, 48(12), 2443–2461. <br>
- https://doi.org/10.1177/0308518X16659479 <br><br>
+https://doi.org/10.1177/0308518X16659479 <br><br>
  
 Freeman, L. (2005). Displacement or succession? Residential mobility in gentrifying neighborhoods. Urban Affairs Review, 40(4), 463–491. <br>
- https://ds4ps.org/cpp-528-spr-2020/articles/gentrification/displacement-or-succession.pdf <br><br>
+https://ds4ps.org/cpp-528-spr-2020/articles/gentrification/displacement-or-succession.pdf <br><br>
  
 Furman Center. (2010). The effects of rezonings on neighborhoods and schools. NYU Furman Center. <br>
 https://www.furmancenter.org/wp-content/uploads/ee-legacy/publications/Rezonings_Furman_Center_Policy_Brief_March_2010.pdf <br><br>
 
 Hackworth, J., & Smith, N. (2000). The changing state of gentrification. Tijdschrift voor Economische en Sociale Geografie, 91(4), 464–477. <br>
- https://doi.org/10.1111/1467-9663.00172 <br><br>
+https://doi.org/10.1111/1467-9663.00172 <br><br>
  
 Lauermann, J. (2021). Luxury housing and gentrification in New York City, 2010–2019. Urban Geography, 43(10), 1683–1701. <br>
- https://doi.org/10.1080/02723638.2021.1956112 <br><br>
+https://doi.org/10.1080/02723638.2021.1956112 <br><br>
  
 Lauermann, J., Alexander, Z., & Wang, Z. (2025). Mapping super-gentrification in large US cities, 1990–2020. Urban Geography. <br>
- https://doi.org/10.1080/02723638.2025.2528418 <br><br>
+https://doi.org/10.1080/02723638.2025.2528418 <br><br>
  
 Madden, D., & Marcuse, P. (2016). In defense of housing: The politics of crisis. Verso. <br><br>
 
 Marcuse, P. (1985). Gentrification, abandonment, and displacement: Connections, causes, and policy responses in New York City. Washington University Journal of Urban and Contemporary Law, 28, 195–240. <br>
- https://openscholarship.wustl.edu/law_urbanlaw/vol28/iss1/4 <br><br>
+https://openscholarship.wustl.edu/law_urbanlaw/vol28/iss1/4 <br><br>
  
 Martucci, E. (2024). There was nothing there: Williamsburg, the gentrification of a Brooklyn neighborhood. Fordham University Press. <br><br>
 
 Midtown South Community Council. (n.d.). The hidden horror of Hudson Yards is how it was financed. <br>
- https://midtownsouthcc.org/blogs/the-hidden-horror-of-hudson-yards-is-how-it-was-financed/ <br><br>
+https://midtownsouthcc.org/blogs/the-hidden-horror-of-hudson-yards-is-how-it-was-financed/ <br><br>
+
+Moran, P. A. P. (1950). Notes on Continuous Stochastic Phenomena. Biometrika, 37(1/2), 17–23. <br> https://doi.org/10.2307/2332142 <br><br>
  
 New York City Comptroller. (n.d.). The pied-à-terre tax and its potential revenues. <br>
- https://comptroller.nyc.gov/reports/the-pied-a-terre-tax-and-its-potential-revenues/ <br><br>
+https://comptroller.nyc.gov/reports/the-pied-a-terre-tax-and-its-potential-revenues/ <br><br>
 
 New York City Council. (2025, May 14). City Council announces new housing affordability initiatives. <br>
- https://council.nyc.gov/press/2025/05/14/2869/ <br><br>
+https://council.nyc.gov/press/2025/05/14/2869/ <br><br>
  
 New York City Department of City Planning. (n.d.). Mandatory inclusionary housing. <br>
 https://www.nyc.gov/content/planning/pages/our-work/plans/citywide/mandatory-inclusionary-housing <br><br>
